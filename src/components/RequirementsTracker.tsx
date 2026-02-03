@@ -23,10 +23,10 @@ const categoryIcons = {
 };
 
 const categoryColors = {
-  document: "text-brand-primary",
-  test: "text-brand-tertiary",
-  deadline: "text-accent-warning",
-  scholarship: "text-brand-secondary",
+  document: "text-text-dim",
+  test: "text-text-dim",
+  deadline: "text-text-dim",
+  scholarship: "text-text-dim",
 };
 
 function RequirementItem({ 
@@ -51,13 +51,13 @@ function RequirementItem({
         requirement.completed 
           ? "bg-surface-card/30 border-border-subtle/50" 
           : "bg-surface-card/50 border-border-subtle hover:border-zinc-700",
-        isUrgent && !requirement.completed && "border-accent-warning/50 bg-accent-warning/5"
+        isUrgent && !requirement.completed && "border-accent-critical/50 bg-accent-critical/5"
       )}
       onClick={() => onToggle(requirement.id)}
     >
       <div className="pt-0.5">
         {requirement.completed ? (
-          <CheckCircle2 size={18} className="text-brand-secondary" />
+          <CheckCircle2 size={18} className="text-zinc-500" />
         ) : (
           <Circle size={18} className="text-text-dim group-hover:text-zinc-400 transition-colors" />
         )}
@@ -86,7 +86,7 @@ function RequirementItem({
         {requirement.deadline && (
           <div className={cn(
             "flex items-center gap-1 mt-2 text-[10px] uppercase tracking-wider",
-            isPast ? "text-accent-critical" : isUrgent ? "text-accent-warning" : "text-text-dim"
+            isPast ? "text-accent-critical" : isUrgent ? "text-accent-critical" : "text-text-dim"
           )}>
             <Calendar size={10} />
             <span>
@@ -115,10 +115,11 @@ function UniversityRequirements({
   const totalCount = requirements.length;
   const progress = (completedCount / totalCount) * 100;
 
+  // All cards use uniform zinc styling - status indicated by border weight
   const statusColors = {
-    priority: "border-brand-secondary/50 bg-brand-secondary/5",
-    target: "border-brand-primary/50 bg-brand-primary/5",
-    aspirational: "border-brand-tertiary/50 bg-brand-tertiary/5",
+    priority: "border-zinc-600 bg-surface-card/50",
+    target: "border-border-subtle bg-surface-card/40",
+    aspirational: "border-border-subtle/50 bg-surface-card/30",
   };
 
   return (
@@ -158,14 +159,13 @@ function UniversityRequirements({
           </div>
         </div>
         
-        {/* Progress bar */}
+        {/* Progress bar - uniform zinc with status via opacity */}
         <div className="mt-3 h-1 bg-border-subtle rounded-full overflow-hidden">
           <motion.div
             className={cn(
-              "h-full rounded-full",
-              university.status === "priority" && "bg-brand-secondary",
-              university.status === "target" && "bg-brand-primary",
-              university.status === "aspirational" && "bg-brand-tertiary"
+              "h-full rounded-full bg-zinc-400",
+              university.status === "priority" && "bg-zinc-300",
+              university.status === "aspirational" && "bg-zinc-500"
             )}
             initial={{ width: 0 }}
             animate={{ width: `${progress}%` }}
@@ -232,7 +232,7 @@ export default function RequirementsTracker() {
           <div className="text-[10px] text-text-dim uppercase tracking-wider">Programs</div>
         </div>
         <div className="p-4 bg-surface-card/50 border border-border-subtle rounded">
-          <div className="text-2xl font-bold text-brand-secondary">
+          <div className="text-2xl font-bold text-zinc-100">
             {Math.round((totalCompleted / totalItems) * 100)}%
           </div>
           <div className="text-[10px] text-text-dim uppercase tracking-wider">Progress</div>

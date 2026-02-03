@@ -115,10 +115,11 @@ function ComparisonChart() {
     <div className="space-y-3">
       {data.map((item, idx) => {
         const percentage = (item.total / maxCost) * 100;
+        // Uniform zinc bars - status via opacity/shade
         const statusColors = {
-          priority: "bg-brand-secondary",
-          target: "bg-brand-primary",
-          aspirational: "bg-brand-tertiary",
+          priority: "bg-zinc-300",
+          target: "bg-zinc-400",
+          aspirational: "bg-zinc-500",
         };
 
         return (
@@ -171,21 +172,21 @@ function ScholarshipsPanel() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: idx * 0.1 }}
             className={cn(
-              "p-4 border rounded",
+              "p-4 border rounded bg-surface-card/40",
               scholarship.status === "eligible" 
-                ? "bg-brand-secondary/5 border-brand-secondary/30" 
-                : "bg-accent-warning/5 border-accent-warning/30"
+                ? "border-zinc-600" 
+                : "border-border-subtle"
             )}
           >
             <div className="flex items-start justify-between mb-2">
               <div className="flex items-center gap-2">
-                <Award size={16} className={scholarship.status === "eligible" ? "text-brand-secondary" : "text-accent-warning"} />
+                <Award size={16} className="text-zinc-400" />
                 <span className="font-bold text-zinc-200 text-sm">{scholarship.name}</span>
               </div>
               {scholarship.status === "eligible" ? (
-                <CheckCircle2 size={14} className="text-brand-secondary" />
+                <span className="text-[9px] font-bold uppercase tracking-wider text-zinc-400 border border-zinc-600 px-1.5 py-0.5 rounded">Eligible</span>
               ) : (
-                <AlertTriangle size={14} className="text-accent-warning" />
+                <span className="text-[9px] font-bold uppercase tracking-wider text-text-dim border border-border-subtle px-1.5 py-0.5 rounded">Pending</span>
               )}
             </div>
             
@@ -195,12 +196,12 @@ function ScholarshipsPanel() {
               </div>
             )}
             
-            <div className="text-sm font-mono text-brand-primary mb-2">
+            <div className="text-sm font-mono text-zinc-200 mb-2">
               {scholarship.amount}
             </div>
             
             {scholarship.deadline && (
-              <div className="text-[10px] text-accent-warning mb-2">
+              <div className="text-[10px] text-text-dim mb-2">
                 Deadline: {scholarship.deadline}
               </div>
             )}
@@ -228,46 +229,46 @@ export default function FinancialRoadmap() {
 
   return (
     <div className="space-y-6">
-      {/* Quick Stats */}
+      {/* Quick Stats - uniform zinc styling */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <div className="p-4 bg-brand-secondary/5 border border-brand-secondary/30 rounded">
+        <div className="p-4 bg-surface-card/50 border border-border-subtle rounded">
           <div className="flex items-center gap-2 mb-1">
-            <TrendingUp size={14} className="text-brand-secondary" />
-            <span className="text-[10px] text-brand-secondary uppercase tracking-wider">Best Value</span>
+            <TrendingUp size={14} className="text-zinc-500" />
+            <span className="text-[10px] text-text-dim uppercase tracking-wider">Best Value</span>
           </div>
           <div className="text-lg font-bold text-zinc-100">TU Munich</div>
           <div className="text-xs text-text-dim">€0 tuition (EU)</div>
         </div>
         
-        <div className="p-4 bg-brand-primary/5 border border-brand-primary/30 rounded">
+        <div className="p-4 bg-surface-card/50 border border-border-subtle rounded">
           <div className="flex items-center gap-2 mb-1">
-            <Home size={14} className="text-brand-primary" />
-            <span className="text-[10px] text-brand-primary uppercase tracking-wider">Lowest Living</span>
+            <Home size={14} className="text-zinc-500" />
+            <span className="text-[10px] text-text-dim uppercase tracking-wider">Lowest Living</span>
           </div>
           <div className="text-lg font-bold text-zinc-100">TU Delft</div>
           <div className="text-xs text-text-dim">~€1,300/mo</div>
         </div>
         
-        <div className="p-4 bg-brand-tertiary/5 border border-brand-tertiary/30 rounded">
+        <div className="p-4 bg-surface-card/50 border border-border-subtle rounded">
           <div className="flex items-center gap-2 mb-1">
-            <Award size={14} className="text-brand-tertiary" />
-            <span className="text-[10px] text-brand-tertiary uppercase tracking-wider">Top Scholarship</span>
+            <Award size={14} className="text-zinc-500" />
+            <span className="text-[10px] text-text-dim uppercase tracking-wider">Top Scholarship</span>
           </div>
           <div className="text-lg font-bold text-zinc-100">ESOP</div>
           <div className="text-xs text-text-dim">CHF 24k+/yr</div>
         </div>
         
-        <div className="p-4 bg-accent-warning/5 border border-accent-warning/30 rounded">
+        <div className="p-4 bg-surface-card/50 border border-border-subtle rounded">
           <div className="flex items-center gap-2 mb-1">
-            <AlertTriangle size={14} className="text-accent-warning" />
-            <span className="text-[10px] text-accent-warning uppercase tracking-wider">Highest Cost</span>
+            <AlertTriangle size={14} className="text-zinc-500" />
+            <span className="text-[10px] text-text-dim uppercase tracking-wider">Highest Cost</span>
           </div>
           <div className="text-lg font-bold text-zinc-100">MIT</div>
           <div className="text-xs text-text-dim">€70k+/yr (unfunded)</div>
         </div>
       </div>
 
-      {/* View Tabs */}
+      {/* View Tabs - Blue for active tab */}
       <div className="flex gap-2 p-1 bg-surface-card/50 rounded border border-border-subtle w-fit">
         {[
           { id: "comparison", label: "Compare All" },
@@ -280,7 +281,7 @@ export default function FinancialRoadmap() {
             className={cn(
               "px-4 py-2 text-xs font-medium rounded transition-all",
               view === tab.id
-                ? "bg-border-subtle text-zinc-100"
+                ? "bg-brand-primary text-white"
                 : "text-text-dim hover:text-zinc-300"
             )}
           >
@@ -314,7 +315,7 @@ export default function FinancialRoadmap() {
                   className={cn(
                     "px-3 py-1.5 text-xs rounded border transition-all",
                     selectedUniversity === u.id
-                      ? "bg-brand-primary/10 border-brand-primary/50 text-brand-primary"
+                      ? "bg-brand-primary text-white border-brand-primary"
                       : "bg-surface-card/50 border-border-subtle text-text-dim hover:text-zinc-300"
                   )}
                 >

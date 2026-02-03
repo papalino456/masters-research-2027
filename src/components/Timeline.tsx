@@ -18,19 +18,24 @@ const typeIcons = {
   scholarship: Award,
 };
 
+// Uniform zinc styling - red only for urgent deadlines (<30 days)
 const typeColors = {
-  deadline: { icon: "text-accent-critical", border: "border-accent-critical/30", bg: "bg-accent-critical/5" },
-  milestone: { icon: "text-brand-primary", border: "border-brand-primary/30", bg: "bg-brand-primary/5" },
-  scholarship: { icon: "text-brand-secondary", border: "border-brand-secondary/30", bg: "bg-brand-secondary/5" },
+  deadline: { icon: "text-zinc-400", border: "border-zinc-600", bg: "bg-surface-card/50" },
+  milestone: { icon: "text-zinc-400", border: "border-border-subtle", bg: "bg-surface-card/40" },
+  scholarship: { icon: "text-zinc-400", border: "border-border-subtle", bg: "bg-surface-card/40" },
 };
 
 function TimelineItem({ event, index }: { event: TimelineEvent; index: number }) {
   const Icon = typeIcons[event.type];
-  const colors = typeColors[event.type];
+  const baseColors = typeColors[event.type];
   const daysUntil = getDaysUntil(event.date);
   const isPast = daysUntil < 0;
-  const isUrgent = daysUntil >= 0 && daysUntil <= 30;
-  const isSoon = daysUntil > 30 && daysUntil <= 90;
+  const isUrgent = daysUntil >= 0 && daysUntil < 30;
+  
+  // Use critical red styling ONLY for urgent items (<30 days)
+  const colors = isUrgent && !isPast
+    ? { icon: "text-accent-critical", border: "border-accent-critical/50", bg: "bg-accent-critical/5" }
+    : baseColors;
 
   const university = event.university 
     ? universities.find(u => u.id === event.university)
@@ -92,7 +97,7 @@ function TimelineItem({ event, index }: { event: TimelineEvent; index: number })
           
           <div className={cn(
             "flex items-center gap-1 text-[10px] font-mono uppercase tracking-wider",
-            isPast ? "text-zinc-700" : isUrgent ? "text-accent-warning" : isSoon ? "text-yellow-500" : "text-text-dim"
+            isPast ? "text-zinc-700" : isUrgent ? "text-accent-critical" : "text-text-dim"
           )}>
             <Clock size={10} />
             {getTimeLabel()}
@@ -121,10 +126,10 @@ function TimelineItem({ event, index }: { event: TimelineEvent; index: number })
           
           {university && (
             <span className={cn(
-              "px-2 py-0.5 rounded text-[10px] font-medium",
-              university.status === "priority" && "bg-brand-secondary/10 text-brand-secondary",
-              university.status === "target" && "bg-brand-primary/10 text-brand-primary",
-              university.status === "aspirational" && "bg-brand-tertiary/10 text-brand-tertiary"
+              "px-2 py-0.5 rounded text-[10px] font-medium bg-surface-card border",
+              university.status === "priority" && "border-zinc-600 text-zinc-300",
+              university.status === "target" && "border-border-subtle text-zinc-400",
+              university.status === "aspirational" && "border-border-subtle/50 text-zinc-500"
             )}>
               {university.name}
             </span>
@@ -168,7 +173,7 @@ function UpcomingDeadlines() {
               <div className="flex items-center gap-3">
                 <div className={cn(
                   "w-10 h-10 rounded flex items-center justify-center font-mono font-bold",
-                  daysUntil <= 30 ? "bg-accent-critical/20 text-accent-critical/80" : "bg-accent-warning/20 text-accent-warning"
+                  daysUntil < 30 ? "bg-accent-critical/20 text-accent-critical" : "bg-surface-card text-zinc-400 border border-border-subtle"
                 )}>
                   {daysUntil}
                 </div>
