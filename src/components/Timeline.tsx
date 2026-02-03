@@ -18,11 +18,11 @@ const typeIcons = {
   scholarship: Award,
 };
 
-// Uniform zinc styling - red only for urgent deadlines (<30 days)
+// Blue accents for milestones/scholarships - red only for urgent deadlines (<30 days)
 const typeColors = {
   deadline: { icon: "text-zinc-400", border: "border-zinc-600", bg: "bg-surface-card/50" },
-  milestone: { icon: "text-zinc-400", border: "border-border-subtle", bg: "bg-surface-card/40" },
-  scholarship: { icon: "text-zinc-400", border: "border-border-subtle", bg: "bg-surface-card/40" },
+  milestone: { icon: "text-brand-primary", border: "border-brand-primary/30", bg: "bg-brand-primary/5" },
+  scholarship: { icon: "text-brand-primary", border: "border-brand-primary/30", bg: "bg-brand-primary/5" },
 };
 
 function TimelineItem({ event, index }: { event: TimelineEvent; index: number }) {

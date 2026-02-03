@@ -50,7 +50,7 @@ function CostBreakdown({ universityId }: { universityId: string }) {
             className="p-4 bg-surface-card/30 border border-border-subtle/50 rounded"
           >
             <div className="flex items-center gap-2 mb-3">
-              <Icon size={14} className="text-text-dim" />
+              <Icon size={14} className="text-brand-primary" />
               <span className="text-xs font-bold text-zinc-400 uppercase tracking-wider">
                 {category.category}
               </span>
@@ -115,11 +115,11 @@ function ComparisonChart() {
     <div className="space-y-3">
       {data.map((item, idx) => {
         const percentage = (item.total / maxCost) * 100;
-        // Uniform zinc bars - status via opacity/shade
+        // Blue bars with status via opacity
         const statusColors = {
-          priority: "bg-zinc-300",
-          target: "bg-zinc-400",
-          aspirational: "bg-zinc-500",
+          priority: "bg-brand-primary",
+          target: "bg-brand-primary/80",
+          aspirational: "bg-brand-primary/60",
         };
 
         return (
@@ -233,7 +233,7 @@ export default function FinancialRoadmap() {
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         <div className="p-4 bg-surface-card/50 border border-border-subtle rounded">
           <div className="flex items-center gap-2 mb-1">
-            <TrendingUp size={14} className="text-zinc-500" />
+            <TrendingUp size={14} className="text-brand-primary" />
             <span className="text-[10px] text-text-dim uppercase tracking-wider">Best Value</span>
           </div>
           <div className="text-lg font-bold text-zinc-100">TU Munich</div>
@@ -242,7 +242,7 @@ export default function FinancialRoadmap() {
         
         <div className="p-4 bg-surface-card/50 border border-border-subtle rounded">
           <div className="flex items-center gap-2 mb-1">
-            <Home size={14} className="text-zinc-500" />
+            <Home size={14} className="text-brand-primary" />
             <span className="text-[10px] text-text-dim uppercase tracking-wider">Lowest Living</span>
           </div>
           <div className="text-lg font-bold text-zinc-100">TU Delft</div>
@@ -251,7 +251,7 @@ export default function FinancialRoadmap() {
         
         <div className="p-4 bg-surface-card/50 border border-border-subtle rounded">
           <div className="flex items-center gap-2 mb-1">
-            <Award size={14} className="text-zinc-500" />
+            <Award size={14} className="text-brand-primary" />
             <span className="text-[10px] text-text-dim uppercase tracking-wider">Top Scholarship</span>
           </div>
           <div className="text-lg font-bold text-zinc-100">ESOP</div>
@@ -260,7 +260,7 @@ export default function FinancialRoadmap() {
         
         <div className="p-4 bg-surface-card/50 border border-border-subtle rounded">
           <div className="flex items-center gap-2 mb-1">
-            <AlertTriangle size={14} className="text-zinc-500" />
+            <AlertTriangle size={14} className="text-brand-primary" />
             <span className="text-[10px] text-text-dim uppercase tracking-wider">Highest Cost</span>
           </div>
           <div className="text-lg font-bold text-zinc-100">MIT</div>

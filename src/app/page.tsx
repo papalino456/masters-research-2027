@@ -162,7 +162,7 @@ function OverviewTab() {
               </a>
             </div>
 
-            <h2 className="text-xl font-bold text-zinc-100 mb-1 group-hover:text-brand-primary transition-colors">
+            <h2 className="text-xl font-bold text-brand-primary mb-1 group-hover:text-blue-400 transition-colors">
               {program.name}
             </h2>
             

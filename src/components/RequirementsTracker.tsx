@@ -23,10 +23,10 @@ const categoryIcons = {
 };
 
 const categoryColors = {
-  document: "text-text-dim",
-  test: "text-text-dim",
-  deadline: "text-text-dim",
-  scholarship: "text-text-dim",
+  document: "text-brand-primary",
+  test: "text-brand-primary",
+  deadline: "text-brand-primary",
+  scholarship: "text-brand-primary",
 };
 
 function RequirementItem({ 
