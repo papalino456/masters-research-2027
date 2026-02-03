@@ -23,10 +23,10 @@ const categoryIcons = {
 };
 
 const categoryColors = {
-  document: "text-blue-500",
-  test: "text-purple-500",
-  deadline: "text-orange-500",
-  scholarship: "text-green-500",
+  document: "text-brand-primary",
+  test: "text-brand-tertiary",
+  deadline: "text-accent-warning",
+  scholarship: "text-brand-secondary",
 };
 
 function RequirementItem({ 
@@ -47,19 +47,19 @@ function RequirementItem({
       initial={{ opacity: 0, x: -10 }}
       animate={{ opacity: 1, x: 0 }}
       className={cn(
-        "flex items-start gap-3 p-3 rounded-lg border transition-all cursor-pointer group",
+        "flex items-start gap-3 p-3 rounded border transition-all cursor-pointer group",
         requirement.completed 
-          ? "bg-zinc-900/30 border-zinc-800/50" 
-          : "bg-zinc-900/50 border-zinc-800 hover:border-zinc-700",
-        isUrgent && !requirement.completed && "border-orange-500/50 bg-orange-500/5"
+          ? "bg-surface-card/30 border-border-subtle/50" 
+          : "bg-surface-card/50 border-border-subtle hover:border-zinc-700",
+        isUrgent && !requirement.completed && "border-accent-warning/50 bg-accent-warning/5"
       )}
       onClick={() => onToggle(requirement.id)}
     >
       <div className="pt-0.5">
         {requirement.completed ? (
-          <CheckCircle2 size={18} className="text-green-500" />
+          <CheckCircle2 size={18} className="text-brand-secondary" />
         ) : (
-          <Circle size={18} className="text-zinc-600 group-hover:text-zinc-400 transition-colors" />
+          <Circle size={18} className="text-text-dim group-hover:text-zinc-400 transition-colors" />
         )}
       </div>
       
@@ -77,7 +77,7 @@ function RequirementItem({
         {requirement.description && (
           <p className={cn(
             "text-xs mt-1",
-            requirement.completed ? "text-zinc-700" : "text-zinc-500"
+            requirement.completed ? "text-zinc-700" : "text-text-dim"
           )}>
             {requirement.description}
           </p>
@@ -86,7 +86,7 @@ function RequirementItem({
         {requirement.deadline && (
           <div className={cn(
             "flex items-center gap-1 mt-2 text-[10px] uppercase tracking-wider",
-            isPast ? "text-red-500" : isUrgent ? "text-orange-500" : "text-zinc-600"
+            isPast ? "text-accent-critical" : isUrgent ? "text-accent-warning" : "text-text-dim"
           )}>
             <Calendar size={10} />
             <span>
@@ -116,9 +116,9 @@ function UniversityRequirements({
   const progress = (completedCount / totalCount) * 100;
 
   const statusColors = {
-    priority: "border-green-500/50 bg-green-500/5",
-    target: "border-blue-500/50 bg-blue-500/5",
-    aspirational: "border-purple-500/50 bg-purple-500/5",
+    priority: "border-brand-secondary/50 bg-brand-secondary/5",
+    target: "border-brand-primary/50 bg-brand-primary/5",
+    aspirational: "border-brand-tertiary/50 bg-brand-tertiary/5",
   };
 
   return (
@@ -126,25 +126,25 @@ function UniversityRequirements({
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       className={cn(
-        "border rounded-xl overflow-hidden",
+        "border rounded overflow-hidden",
         statusColors[university.status]
       )}
     >
       {/* Header */}
       <div 
-        className="p-4 cursor-pointer hover:bg-zinc-900/50 transition-colors"
+        className="p-4 cursor-pointer hover:bg-surface-card/50 transition-colors"
         onClick={() => setIsExpanded(!isExpanded)}
       >
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
             {isExpanded ? (
-              <ChevronDown size={16} className="text-zinc-500" />
+              <ChevronDown size={16} className="text-text-dim" />
             ) : (
-              <ChevronRight size={16} className="text-zinc-500" />
+              <ChevronRight size={16} className="text-text-dim" />
             )}
             <div>
               <h3 className="font-bold text-zinc-100">{university.name}</h3>
-              <p className="text-xs text-zinc-500">{university.program}</p>
+              <p className="text-xs text-text-dim">{university.program}</p>
             </div>
           </div>
           
@@ -152,20 +152,20 @@ function UniversityRequirements({
             <div className="text-sm font-mono text-zinc-300">
               {completedCount}/{totalCount}
             </div>
-            <div className="text-[10px] text-zinc-600 uppercase tracking-wider">
+            <div className="text-[10px] text-text-dim uppercase tracking-wider">
               {Math.round(progress)}% Complete
             </div>
           </div>
         </div>
         
         {/* Progress bar */}
-        <div className="mt-3 h-1 bg-zinc-800 rounded-full overflow-hidden">
+        <div className="mt-3 h-1 bg-border-subtle rounded-full overflow-hidden">
           <motion.div
             className={cn(
               "h-full rounded-full",
-              university.status === "priority" && "bg-green-500",
-              university.status === "target" && "bg-blue-500",
-              university.status === "aspirational" && "bg-purple-500"
+              university.status === "priority" && "bg-brand-secondary",
+              university.status === "target" && "bg-brand-primary",
+              university.status === "aspirational" && "bg-brand-tertiary"
             )}
             initial={{ width: 0 }}
             animate={{ width: `${progress}%` }}
@@ -219,23 +219,23 @@ export default function RequirementsTracker() {
     <div className="space-y-6">
       {/* Overview Stats */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <div className="p-4 bg-zinc-900/50 border border-zinc-800 rounded-lg">
+        <div className="p-4 bg-surface-card/50 border border-border-subtle rounded">
           <div className="text-2xl font-bold text-zinc-100">{totalCompleted}</div>
-          <div className="text-[10px] text-zinc-600 uppercase tracking-wider">Completed</div>
+          <div className="text-[10px] text-text-dim uppercase tracking-wider">Completed</div>
         </div>
-        <div className="p-4 bg-zinc-900/50 border border-zinc-800 rounded-lg">
+        <div className="p-4 bg-surface-card/50 border border-border-subtle rounded">
           <div className="text-2xl font-bold text-zinc-100">{totalItems - totalCompleted}</div>
-          <div className="text-[10px] text-zinc-600 uppercase tracking-wider">Remaining</div>
+          <div className="text-[10px] text-text-dim uppercase tracking-wider">Remaining</div>
         </div>
-        <div className="p-4 bg-zinc-900/50 border border-zinc-800 rounded-lg">
+        <div className="p-4 bg-surface-card/50 border border-border-subtle rounded">
           <div className="text-2xl font-bold text-zinc-100">{universities.length}</div>
-          <div className="text-[10px] text-zinc-600 uppercase tracking-wider">Programs</div>
+          <div className="text-[10px] text-text-dim uppercase tracking-wider">Programs</div>
         </div>
-        <div className="p-4 bg-zinc-900/50 border border-zinc-800 rounded-lg">
-          <div className="text-2xl font-bold text-green-500">
+        <div className="p-4 bg-surface-card/50 border border-border-subtle rounded">
+          <div className="text-2xl font-bold text-brand-secondary">
             {Math.round((totalCompleted / totalItems) * 100)}%
           </div>
-          <div className="text-[10px] text-zinc-600 uppercase tracking-wider">Progress</div>
+          <div className="text-[10px] text-text-dim uppercase tracking-wider">Progress</div>
         </div>
       </div>
 

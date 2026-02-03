@@ -47,10 +47,10 @@ function CostBreakdown({ universityId }: { universityId: string }) {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: idx * 0.1 }}
-            className="p-4 bg-zinc-900/30 border border-zinc-800/50 rounded-lg"
+            className="p-4 bg-surface-card/30 border border-border-subtle/50 rounded"
           >
             <div className="flex items-center gap-2 mb-3">
-              <Icon size={14} className="text-zinc-500" />
+              <Icon size={14} className="text-text-dim" />
               <span className="text-xs font-bold text-zinc-400 uppercase tracking-wider">
                 {category.category}
               </span>
@@ -62,14 +62,14 @@ function CostBreakdown({ universityId }: { universityId: string }) {
                   <div className="flex-1">
                     <span className="text-sm text-zinc-300">{item.name}</span>
                     {item.note && (
-                      <span className="text-[10px] text-zinc-600 ml-2">({item.note})</span>
+                      <span className="text-[10px] text-text-dim ml-2">({item.note})</span>
                     )}
                   </div>
                   <div className="text-right">
                     <span className="text-sm font-mono text-zinc-200">
                       {item.currency} {item.amount.toLocaleString()}
                     </span>
-                    <span className="text-[10px] text-zinc-600 ml-1">
+                    <span className="text-[10px] text-text-dim ml-1">
                       /{item.frequency === "monthly" ? "mo" : item.frequency === "yearly" ? "yr" : "once"}
                     </span>
                   </div>
@@ -81,16 +81,16 @@ function CostBreakdown({ universityId }: { universityId: string }) {
       })}
       
       {/* Summary */}
-      <div className="p-4 bg-zinc-800/50 border border-zinc-700 rounded-lg">
+      <div className="p-4 bg-border-subtle/50 border border-zinc-700 rounded">
         <div className="flex justify-between items-center mb-2">
-          <span className="text-xs text-zinc-500 uppercase tracking-wider">Yearly Cost (Est.)</span>
+          <span className="text-xs text-text-dim uppercase tracking-wider">Yearly Cost (Est.)</span>
           <span className="text-lg font-bold font-mono text-zinc-200">
             €{yearlyCost.toLocaleString()}
           </span>
         </div>
         <div className="flex justify-between items-center">
-          <span className="text-xs text-zinc-500 uppercase tracking-wider">2-Year Total</span>
-          <span className="text-xl font-bold font-mono text-blue-400">
+          <span className="text-xs text-text-dim uppercase tracking-wider">2-Year Total</span>
+          <span className="text-xl font-bold font-mono text-brand-primary">
             €{totalCost.toLocaleString()}
           </span>
         </div>
@@ -116,9 +116,9 @@ function ComparisonChart() {
       {data.map((item, idx) => {
         const percentage = (item.total / maxCost) * 100;
         const statusColors = {
-          priority: "bg-green-500",
-          target: "bg-blue-500",
-          aspirational: "bg-purple-500",
+          priority: "bg-brand-secondary",
+          target: "bg-brand-primary",
+          aspirational: "bg-brand-tertiary",
         };
 
         return (
@@ -135,7 +135,7 @@ function ComparisonChart() {
                 €{item.total.toLocaleString()}
               </span>
             </div>
-            <div className="h-6 bg-zinc-900 rounded overflow-hidden">
+            <div className="h-6 bg-surface-card rounded overflow-hidden">
               <motion.div
                 className={cn("h-full rounded flex items-center justify-end pr-2", statusColors[item.status])}
                 initial={{ width: 0 }}
@@ -165,42 +165,42 @@ function ScholarshipsPanel() {
           : null;
 
         return (
-          <motion.div
+            <motion.div
             key={scholarship.id}
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: idx * 0.1 }}
             className={cn(
-              "p-4 border rounded-lg",
+              "p-4 border rounded",
               scholarship.status === "eligible" 
-                ? "bg-green-500/5 border-green-500/30" 
-                : "bg-yellow-500/5 border-yellow-500/30"
+                ? "bg-brand-secondary/5 border-brand-secondary/30" 
+                : "bg-accent-warning/5 border-accent-warning/30"
             )}
           >
             <div className="flex items-start justify-between mb-2">
               <div className="flex items-center gap-2">
-                <Award size={16} className={scholarship.status === "eligible" ? "text-green-500" : "text-yellow-500"} />
+                <Award size={16} className={scholarship.status === "eligible" ? "text-brand-secondary" : "text-accent-warning"} />
                 <span className="font-bold text-zinc-200 text-sm">{scholarship.name}</span>
               </div>
               {scholarship.status === "eligible" ? (
-                <CheckCircle2 size={14} className="text-green-500" />
+                <CheckCircle2 size={14} className="text-brand-secondary" />
               ) : (
-                <AlertTriangle size={14} className="text-yellow-500" />
+                <AlertTriangle size={14} className="text-accent-warning" />
               )}
             </div>
             
             {university && (
-              <div className="text-[10px] text-zinc-600 uppercase tracking-wider mb-2">
+              <div className="text-[10px] text-text-dim uppercase tracking-wider mb-2">
                 {university.name}
               </div>
             )}
             
-            <div className="text-sm font-mono text-blue-400 mb-2">
+            <div className="text-sm font-mono text-brand-primary mb-2">
               {scholarship.amount}
             </div>
             
             {scholarship.deadline && (
-              <div className="text-[10px] text-orange-500 mb-2">
+              <div className="text-[10px] text-accent-warning mb-2">
                 Deadline: {scholarship.deadline}
               </div>
             )}
@@ -209,7 +209,7 @@ function ScholarshipsPanel() {
               {scholarship.eligibility.map(req => (
                 <span 
                   key={req}
-                  className="px-2 py-0.5 bg-zinc-900 border border-zinc-800 rounded text-[9px] text-zinc-500"
+                  className="px-2 py-0.5 bg-surface-card border border-border-subtle rounded text-[9px] text-text-dim"
                 >
                   {req}
                 </span>
@@ -230,45 +230,45 @@ export default function FinancialRoadmap() {
     <div className="space-y-6">
       {/* Quick Stats */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <div className="p-4 bg-green-500/5 border border-green-500/30 rounded-lg">
+        <div className="p-4 bg-brand-secondary/5 border border-brand-secondary/30 rounded">
           <div className="flex items-center gap-2 mb-1">
-            <TrendingUp size={14} className="text-green-500" />
-            <span className="text-[10px] text-green-500 uppercase tracking-wider">Best Value</span>
+            <TrendingUp size={14} className="text-brand-secondary" />
+            <span className="text-[10px] text-brand-secondary uppercase tracking-wider">Best Value</span>
           </div>
           <div className="text-lg font-bold text-zinc-100">TU Munich</div>
-          <div className="text-xs text-zinc-500">€0 tuition (EU)</div>
+          <div className="text-xs text-text-dim">€0 tuition (EU)</div>
         </div>
         
-        <div className="p-4 bg-blue-500/5 border border-blue-500/30 rounded-lg">
+        <div className="p-4 bg-brand-primary/5 border border-brand-primary/30 rounded">
           <div className="flex items-center gap-2 mb-1">
-            <Home size={14} className="text-blue-500" />
-            <span className="text-[10px] text-blue-500 uppercase tracking-wider">Lowest Living</span>
+            <Home size={14} className="text-brand-primary" />
+            <span className="text-[10px] text-brand-primary uppercase tracking-wider">Lowest Living</span>
           </div>
           <div className="text-lg font-bold text-zinc-100">TU Delft</div>
-          <div className="text-xs text-zinc-500">~€1,300/mo</div>
+          <div className="text-xs text-text-dim">~€1,300/mo</div>
         </div>
         
-        <div className="p-4 bg-purple-500/5 border border-purple-500/30 rounded-lg">
+        <div className="p-4 bg-brand-tertiary/5 border border-brand-tertiary/30 rounded">
           <div className="flex items-center gap-2 mb-1">
-            <Award size={14} className="text-purple-500" />
-            <span className="text-[10px] text-purple-500 uppercase tracking-wider">Top Scholarship</span>
+            <Award size={14} className="text-brand-tertiary" />
+            <span className="text-[10px] text-brand-tertiary uppercase tracking-wider">Top Scholarship</span>
           </div>
           <div className="text-lg font-bold text-zinc-100">ESOP</div>
-          <div className="text-xs text-zinc-500">CHF 24k+/yr</div>
+          <div className="text-xs text-text-dim">CHF 24k+/yr</div>
         </div>
         
-        <div className="p-4 bg-orange-500/5 border border-orange-500/30 rounded-lg">
+        <div className="p-4 bg-accent-warning/5 border border-accent-warning/30 rounded">
           <div className="flex items-center gap-2 mb-1">
-            <AlertTriangle size={14} className="text-orange-500" />
-            <span className="text-[10px] text-orange-500 uppercase tracking-wider">Highest Cost</span>
+            <AlertTriangle size={14} className="text-accent-warning" />
+            <span className="text-[10px] text-accent-warning uppercase tracking-wider">Highest Cost</span>
           </div>
           <div className="text-lg font-bold text-zinc-100">MIT</div>
-          <div className="text-xs text-zinc-500">€70k+/yr (unfunded)</div>
+          <div className="text-xs text-text-dim">€70k+/yr (unfunded)</div>
         </div>
       </div>
 
       {/* View Tabs */}
-      <div className="flex gap-2 p-1 bg-zinc-900/50 rounded-lg border border-zinc-800 w-fit">
+      <div className="flex gap-2 p-1 bg-surface-card/50 rounded border border-border-subtle w-fit">
         {[
           { id: "comparison", label: "Compare All" },
           { id: "breakdown", label: "Cost Breakdown" },
@@ -280,8 +280,8 @@ export default function FinancialRoadmap() {
             className={cn(
               "px-4 py-2 text-xs font-medium rounded transition-all",
               view === tab.id
-                ? "bg-zinc-800 text-zinc-100"
-                : "text-zinc-500 hover:text-zinc-300"
+                ? "bg-border-subtle text-zinc-100"
+                : "text-text-dim hover:text-zinc-300"
             )}
           >
             {tab.label}
@@ -292,12 +292,12 @@ export default function FinancialRoadmap() {
       {/* Content */}
       <div className="min-h-[400px]">
         {view === "comparison" && (
-          <div className="p-6 bg-zinc-900/30 border border-zinc-800 rounded-xl">
+          <div className="p-6 bg-surface-card/30 border border-border-subtle rounded">
             <h3 className="text-sm font-bold text-zinc-300 mb-6 uppercase tracking-wider">
               2-Year Total Cost Comparison (EUR)
             </h3>
             <ComparisonChart />
-            <p className="mt-4 text-[10px] text-zinc-600">
+            <p className="mt-4 text-[10px] text-text-dim">
               * Estimates include tuition, living costs, and one-time expenses. Actual costs may vary.
             </p>
           </div>
@@ -314,8 +314,8 @@ export default function FinancialRoadmap() {
                   className={cn(
                     "px-3 py-1.5 text-xs rounded border transition-all",
                     selectedUniversity === u.id
-                      ? "bg-blue-500/10 border-blue-500/50 text-blue-400"
-                      : "bg-zinc-900/50 border-zinc-800 text-zinc-500 hover:text-zinc-300"
+                      ? "bg-brand-primary/10 border-brand-primary/50 text-brand-primary"
+                      : "bg-surface-card/50 border-border-subtle text-text-dim hover:text-zinc-300"
                   )}
                 >
                   {u.name}
@@ -328,7 +328,7 @@ export default function FinancialRoadmap() {
         )}
 
         {view === "scholarships" && (
-          <div className="p-6 bg-zinc-900/30 border border-zinc-800 rounded-xl">
+          <div className="p-6 bg-surface-card/30 border border-border-subtle rounded">
             <h3 className="text-sm font-bold text-zinc-300 mb-4 uppercase tracking-wider">
               Available Scholarships (EU Citizen)
             </h3>

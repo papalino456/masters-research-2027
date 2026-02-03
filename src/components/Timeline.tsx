@@ -19,9 +19,9 @@ const typeIcons = {
 };
 
 const typeColors = {
-  deadline: { icon: "text-red-500", border: "border-red-500/30", bg: "bg-red-500/5" },
-  milestone: { icon: "text-blue-500", border: "border-blue-500/30", bg: "bg-blue-500/5" },
-  scholarship: { icon: "text-green-500", border: "border-green-500/30", bg: "bg-green-500/5" },
+  deadline: { icon: "text-accent-critical", border: "border-accent-critical/30", bg: "bg-accent-critical/5" },
+  milestone: { icon: "text-brand-primary", border: "border-brand-primary/30", bg: "bg-brand-primary/5" },
+  scholarship: { icon: "text-brand-secondary", border: "border-brand-secondary/30", bg: "bg-brand-secondary/5" },
 };
 
 function TimelineItem({ event, index }: { event: TimelineEvent; index: number }) {
@@ -52,16 +52,16 @@ function TimelineItem({ event, index }: { event: TimelineEvent; index: number })
       transition={{ delay: index * 0.05 }}
       className={cn(
         "relative pl-8 pb-8 border-l-2",
-        isPast ? "border-zinc-800 opacity-50" : colors.border
+        isPast ? "border-border-subtle opacity-50" : colors.border
       )}
     >
       {/* Timeline dot */}
       <div className={cn(
         "absolute left-[-9px] top-0 w-4 h-4 rounded-full border-2 flex items-center justify-center",
         isPast 
-          ? "bg-zinc-900 border-zinc-700" 
+          ? "bg-surface-card border-zinc-700" 
           : cn(colors.bg, colors.border),
-        event.critical && !isPast && "ring-2 ring-offset-2 ring-offset-[#0a0a0a] ring-red-500/50"
+        event.critical && !isPast && "ring-2 ring-offset-2 ring-offset-[#0a0a0a] ring-accent-critical/50"
       )}>
         <div className={cn(
           "w-1.5 h-1.5 rounded-full",
@@ -71,20 +71,20 @@ function TimelineItem({ event, index }: { event: TimelineEvent; index: number })
 
       {/* Content */}
       <div className={cn(
-        "ml-4 p-4 rounded-lg border",
-        isPast ? "bg-zinc-900/20 border-zinc-800/50" : cn(colors.bg, colors.border)
+        "ml-4 p-4 rounded border",
+        isPast ? "bg-surface-card/20 border-border-subtle/50" : cn(colors.bg, colors.border)
       )}>
         <div className="flex items-start justify-between gap-4 mb-2">
           <div className="flex items-center gap-2">
-            <Icon size={14} className={isPast ? "text-zinc-600" : colors.icon} />
+            <Icon size={14} className={isPast ? "text-text-dim" : colors.icon} />
             <span className={cn(
               "text-xs font-bold uppercase tracking-wider",
-              isPast ? "text-zinc-600" : colors.icon
+              isPast ? "text-text-dim" : colors.icon
             )}>
               {event.type}
             </span>
             {event.critical && !isPast && (
-              <span className="px-1.5 py-0.5 bg-red-500/20 text-red-400 text-[9px] font-bold rounded uppercase">
+              <span className="px-1.5 py-0.5 bg-accent-critical/20 text-accent-critical/80 text-[9px] font-bold rounded uppercase">
                 Critical
               </span>
             )}
@@ -92,7 +92,7 @@ function TimelineItem({ event, index }: { event: TimelineEvent; index: number })
           
           <div className={cn(
             "flex items-center gap-1 text-[10px] font-mono uppercase tracking-wider",
-            isPast ? "text-zinc-700" : isUrgent ? "text-orange-500" : isSoon ? "text-yellow-500" : "text-zinc-500"
+            isPast ? "text-zinc-700" : isUrgent ? "text-accent-warning" : isSoon ? "text-yellow-500" : "text-text-dim"
           )}>
             <Clock size={10} />
             {getTimeLabel()}
@@ -101,7 +101,7 @@ function TimelineItem({ event, index }: { event: TimelineEvent; index: number })
 
         <h3 className={cn(
           "font-bold mb-1",
-          isPast ? "text-zinc-600" : "text-zinc-100"
+          isPast ? "text-text-dim" : "text-zinc-100"
         )}>
           {event.title}
         </h3>
@@ -115,16 +115,16 @@ function TimelineItem({ event, index }: { event: TimelineEvent; index: number })
 
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <Calendar size={12} className="text-zinc-600" />
-            <span className="text-xs text-zinc-500 font-mono">{event.date}</span>
+            <Calendar size={12} className="text-text-dim" />
+            <span className="text-xs text-text-dim font-mono">{event.date}</span>
           </div>
           
           {university && (
             <span className={cn(
               "px-2 py-0.5 rounded text-[10px] font-medium",
-              university.status === "priority" && "bg-green-500/10 text-green-500",
-              university.status === "target" && "bg-blue-500/10 text-blue-500",
-              university.status === "aspirational" && "bg-purple-500/10 text-purple-500"
+              university.status === "priority" && "bg-brand-secondary/10 text-brand-secondary",
+              university.status === "target" && "bg-brand-primary/10 text-brand-primary",
+              university.status === "aspirational" && "bg-brand-tertiary/10 text-brand-tertiary"
             )}>
               {university.name}
             </span>
@@ -145,10 +145,10 @@ function UpcomingDeadlines() {
   if (upcoming.length === 0) return null;
 
   return (
-    <div className="p-4 bg-red-500/5 border border-red-500/30 rounded-xl mb-6">
+    <div className="p-4 bg-accent-critical/5 border border-accent-critical/30 rounded mb-6">
       <div className="flex items-center gap-2 mb-4">
-        <AlertTriangle size={16} className="text-red-500" />
-        <span className="text-sm font-bold text-red-400 uppercase tracking-wider">
+        <AlertTriangle size={16} className="text-accent-critical" />
+        <span className="text-sm font-bold text-accent-critical/80 uppercase tracking-wider">
           Upcoming Deadlines
         </span>
       </div>
@@ -163,23 +163,23 @@ function UpcomingDeadlines() {
           return (
             <div 
               key={event.id}
-              className="flex items-center justify-between p-3 bg-zinc-900/50 rounded-lg"
+              className="flex items-center justify-between p-3 bg-surface-card/50 rounded"
             >
               <div className="flex items-center gap-3">
                 <div className={cn(
-                  "w-10 h-10 rounded-lg flex items-center justify-center font-mono font-bold",
-                  daysUntil <= 30 ? "bg-red-500/20 text-red-400" : "bg-orange-500/20 text-orange-400"
+                  "w-10 h-10 rounded flex items-center justify-center font-mono font-bold",
+                  daysUntil <= 30 ? "bg-accent-critical/20 text-accent-critical/80" : "bg-accent-warning/20 text-accent-warning"
                 )}>
                   {daysUntil}
                 </div>
                 <div>
                   <div className="text-sm font-medium text-zinc-200">{event.title}</div>
-                  <div className="text-[10px] text-zinc-600">{event.date}</div>
+                  <div className="text-[10px] text-text-dim">{event.date}</div>
                 </div>
               </div>
               
               {university && (
-                <ChevronRight size={16} className="text-zinc-600" />
+                <ChevronRight size={16} className="text-text-dim" />
               )}
             </div>
           );
@@ -215,7 +215,7 @@ export default function Timeline() {
       <UpcomingDeadlines />
 
       {/* Full Timeline */}
-      <div className="p-6 bg-zinc-900/30 border border-zinc-800 rounded-xl">
+      <div className="p-6 bg-surface-card/30 border border-border-subtle rounded">
         <h3 className="text-sm font-bold text-zinc-300 mb-6 uppercase tracking-wider">
           Application Timeline
         </h3>
@@ -223,11 +223,11 @@ export default function Timeline() {
         {Object.entries(grouped).map(([monthKey, events]) => (
           <div key={monthKey} className="mb-8 last:mb-0">
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-2 h-2 rounded-full bg-zinc-600" />
-              <h4 className="text-xs font-bold text-zinc-500 uppercase tracking-widest">
+              <div className="w-2 h-2 rounded-full bg-text-dim" />
+              <h4 className="text-xs font-bold text-text-dim uppercase tracking-widest">
                 {formatMonthYear(monthKey)}
               </h4>
-              <div className="flex-1 h-px bg-zinc-800" />
+              <div className="flex-1 h-px bg-border-subtle" />
             </div>
             
             <div className="ml-4">
