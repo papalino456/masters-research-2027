@@ -291,7 +291,7 @@ export default function Home() {
         <div className="flex items-center gap-4">
           <span>Masters Research v2.0</span>
           <span className="w-1 h-1 rounded-full bg-border-subtle" />
-          <span>Last Updated: 2026-02-02</span>
+          <span>Last Updated: 2026-02-05</span>
         </div>
         <div className="flex items-center gap-4">
           <span className="text-border-subtle">Sebastian&apos;s Dashboard</span>
