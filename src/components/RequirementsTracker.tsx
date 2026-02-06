@@ -184,6 +184,42 @@ function UniversityRequirements({
               onToggle={onToggle}
             />
           ))}
+          
+          {/* Detailed Notes Section */}
+          {university.notes && (
+            <div className="mt-4 pt-4 border-t border-border-subtle/50 space-y-3">
+              {university.notes.applicationPeriod && (
+                <div className="p-3 bg-brand-primary/5 border border-brand-primary/20 rounded">
+                  <div className="text-[10px] text-brand-primary/70 uppercase tracking-widest mb-1">Application Period</div>
+                  <p className="text-xs text-zinc-300">{university.notes.applicationPeriod}</p>
+                </div>
+              )}
+              {university.notes.curriculumMatch && (
+                <div className="p-3 bg-surface-card/30 rounded">
+                  <div className="text-[10px] text-text-dim uppercase tracking-widest mb-1">Curriculum Match</div>
+                  <p className="text-xs text-zinc-400">{university.notes.curriculumMatch}</p>
+                </div>
+              )}
+              {university.notes.euAdvantages && (
+                <div className="p-3 bg-brand-secondary/5 border border-brand-secondary/20 rounded">
+                  <div className="text-[10px] text-brand-secondary/70 uppercase tracking-widest mb-1">EU Applicant Advantages</div>
+                  <p className="text-xs text-zinc-300">{university.notes.euAdvantages}</p>
+                </div>
+              )}
+              {university.notes.industryEcosystem && (
+                <div className="p-3 bg-surface-card/30 rounded">
+                  <div className="text-[10px] text-text-dim uppercase tracking-widest mb-1">Industry Ecosystem</div>
+                  <p className="text-xs text-zinc-400">{university.notes.industryEcosystem}</p>
+                </div>
+              )}
+              {university.notes.scholarships && (
+                <div className="p-3 bg-surface-card/30 rounded">
+                  <div className="text-[10px] text-text-dim uppercase tracking-widest mb-1">Scholarships</div>
+                  <p className="text-xs text-zinc-400">{university.notes.scholarships}</p>
+                </div>
+              )}
+            </div>
+          )}
         </div>
       )}
     </motion.div>

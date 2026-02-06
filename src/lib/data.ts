@@ -27,6 +27,13 @@ export interface University {
   credits: number;
   requirements: Requirement[];
   highlights: string[];
+  notes?: {
+    curriculumMatch?: string;
+    industryEcosystem?: string;
+    euAdvantages?: string;
+    scholarships?: string;
+    applicationPeriod?: string;
+  };
 }
 
 export interface FinancialItem {
@@ -80,19 +87,30 @@ export const universities: University[] = [
     duration: "4 Semesters (2 years)",
     credits: 120,
     highlights: [
-      "Tuition-free for EU citizens",
-      "Premium industry ecosystem (BMW, Siemens, DLR)",
-      "Access to MIRMI research institute",
-      "Werkstudent opportunities"
+      "Tuition-free for EU citizens (semester fee ~€150)",
+      "Munich ecosystem: BMW, Siemens, DLR, Franka Robotics",
+      "English-taught (EU: may be exempt from IELTS/TOEFL)",
+      "Aptitude assessment: Stage 1 (GPA) or Stage 2 (+interview)",
+      "No GRE required for EU applicants",
+      "Access to MIRMI robotics research institute",
+      "Direct TUMonline application (no Uni-Assist/VPD)"
     ],
     requirements: [
-      { id: "tum-1", name: "Aptitude Assessment (EFV)", category: "test", completed: false, description: "Two-stage process based on GPA and interview" },
-      { id: "tum-2", name: "Letter of Motivation", category: "document", completed: false },
-      { id: "tum-3", name: "English Proficiency (IELTS 6.5+ / TOEFL 88+)", category: "test", completed: false, description: "May be exempt if Bachelor's was in English" },
-      { id: "tum-4", name: "CV/Resume", category: "document", completed: false },
-      { id: "tum-5", name: "Transcripts", category: "document", completed: false },
-      { id: "tum-6", name: "TUMonline Application", category: "deadline", deadline: "2027-05-31", completed: false },
-    ]
+      { id: "tum-1", name: "Aptitude Assessment (EFV) - Stage 1", category: "test", completed: false, description: "Automatic scoring based on GPA and subject background. Direct offer if threshold met." },
+      { id: "tum-2", name: "Aptitude Assessment (EFV) - Stage 2", category: "test", completed: false, description: "Online interview if middle-tier. Focus: motivation and domain knowledge." },
+      { id: "tum-3", name: "English Proficiency (IELTS 6.5+ / TOEFL 88+)", category: "test", completed: false, description: "EU applicants may be exempt if Bachelor's was in English" },
+      { id: "tum-4", name: "Letter of Motivation", category: "document", completed: false, description: "Focus: interest in robotics/AI and career goals" },
+      { id: "tum-5", name: "CV/Resume", category: "document", completed: false },
+      { id: "tum-6", name: "Transcripts", category: "document", completed: false },
+      { id: "tum-7", name: "TUMonline Application", category: "deadline", deadline: "2027-05-31", completed: false, description: "Direct application portal - opens April 1, 2027" },
+    ],
+    notes: {
+      curriculumMatch: "Mechatronics graduates generally meet prerequisites. TUM looks for: Higher Mathematics, CS fundamentals, Control Theory. Possible 'Auflage' (conditional) exams in Theoretical CS if missing.",
+      industryEcosystem: "Munich is Germany's premier robotics hub. Corporate opportunities: BMW, Audi, Siemens, Airbus. Research: DLR (German Aerospace), Franka Robotics, Magazino, MIRMI institute.",
+      euAdvantages: "No GRE required. No VPD/Uni-Assist (direct TUMonline). Unlimited German labor market access. No student visa needed.",
+      scholarships: "Deutschlandstipendium (€300/month, post-enrollment), Bavarian State Scholarships (one-time grants)",
+      applicationPeriod: "April 1 - May 31, 2027 (both EU and non-EU)"
+    }
   },
   {
     id: "eth",
