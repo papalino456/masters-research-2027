@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import { timeline, universities, getDaysUntil, TimelineEvent } from "@/lib/data";
 import { cn } from "@/lib/utils";
+import HorizontalTimeline from "./HorizontalTimeline";
 
 const typeIcons = {
   deadline: AlertTriangle,
@@ -216,6 +217,9 @@ export default function Timeline() {
 
   return (
     <div className="space-y-6">
+      {/* Interactive Horizontal Timeline */}
+      <HorizontalTimeline />
+
       {/* Urgent Deadlines */}
       <UpcomingDeadlines />
 
