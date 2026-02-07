@@ -81,6 +81,13 @@ export default function HorizontalTimeline() {
 
   const markers = monthMarkers();
 
+  // Calculate today's position on the timeline
+  const today = new Date();
+  const todayPosition = Math.max(0, Math.min(100, 
+    ((today.getTime() - firstDate.getTime()) / (lastDate.getTime() - firstDate.getTime())) * 100
+  ));
+  const isTodayInRange = today >= firstDate && today <= lastDate;
+
   return (
     <div className="bg-surface-card/50 border border-border-subtle rounded p-4">
       {/* Header - compact */}
@@ -89,6 +96,7 @@ export default function HorizontalTimeline() {
           Timeline
         </h3>
         <div className="flex items-center gap-2 text-[9px] text-zinc-600">
+          <span className="flex items-center gap-1"><span className="w-1.5 h-1.5 bg-brand-primary rotate-45"/>Today</span>
           <span className="flex items-center gap-1"><span className="w-1.5 h-1.5 bg-red-500"/>Critical</span>
           <span className="flex items-center gap-1"><span className="w-1.5 h-1.5 bg-amber-500"/>Deadline</span>
           <span className="flex items-center gap-1"><span className="w-1.5 h-1.5 bg-blue-400"/>Scholarship</span>
@@ -100,6 +108,27 @@ export default function HorizontalTimeline() {
       <div className="relative h-16">
         {/* Main horizontal line */}
         <div className="absolute top-1/2 left-0 right-0 -translate-y-1/2 h-px bg-zinc-700" />
+        
+        {/* Today marker */}
+        {isTodayInRange && (
+          <div 
+            className="absolute top-0 bottom-0 -translate-x-1/2 z-20"
+            style={{ left: `${todayPosition}%` }}
+          >
+            {/* Vertical line */}
+            <div className="absolute top-0 bottom-0 left-1/2 -translate-x-1/2 w-px bg-brand-primary/50" />
+            {/* Top indicator */}
+            <div className="absolute -top-1 left-1/2 -translate-x-1/2">
+              <div className="w-2 h-2 bg-brand-primary rotate-45" />
+            </div>
+            {/* Bottom label */}
+            <div className="absolute -bottom-6 left-1/2 -translate-x-1/2">
+              <span className="text-[8px] font-mono font-bold text-brand-primary uppercase whitespace-nowrap">
+                TODAY
+              </span>
+            </div>
+          </div>
+        )}
         
         {/* Month tick marks */}
         {markers.map((m, i) => (
