@@ -128,13 +128,16 @@ export default function HorizontalTimeline() {
                 />
               )}
 
-              {/* Square marker - industrial style */}
+              {/* Icon marker - rounded square style */}
               <div className={cn(
-                "w-2.5 h-2.5 border bg-[#0a0a0a] transition-all",
+                "w-6 h-6 rounded-md border bg-[#0a0a0a] flex items-center justify-center transition-all",
                 isPast ? "border-zinc-800 opacity-30" : `border-${color}`,
-                hoveredEvent?.id === event.id && "scale-150"
+                hoveredEvent?.id === event.id && "scale-125"
               )}>
-                <div className={cn("w-full h-full", isPast ? "bg-zinc-800" : `bg-${color}`)} />
+                {(() => {
+                  const Icon = typeIcons[event.type];
+                  return <Icon size={12} className={isPast ? "text-zinc-800" : `text-${color}`} />;
+                })()}
               </div>
 
               {/* Days counter for critical */}
