@@ -35,9 +35,12 @@ export default function HorizontalTimeline() {
     (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
   );
 
-  // Calculate date range
-  const firstDate = new Date(sortedEvents[0].date);
-  const lastDate = new Date(sortedEvents[sortedEvents.length - 1].date);
+  // Calculate date range - include today so it's always visible
+  const today = new Date();
+  const firstEventDate = new Date(sortedEvents[0].date);
+  const lastEventDate = new Date(sortedEvents[sortedEvents.length - 1].date);
+  const firstDate = today < firstEventDate ? today : firstEventDate;
+  const lastDate = lastEventDate;
   const totalDays = Math.ceil((lastDate.getTime() - firstDate.getTime()) / (1000 * 60 * 60 * 24));
 
   const getEventPosition = (event: TimelineEvent) => {
@@ -81,12 +84,8 @@ export default function HorizontalTimeline() {
 
   const markers = monthMarkers();
 
-  // Calculate today's position on the timeline
-  const today = new Date();
-  const todayPosition = Math.max(0, Math.min(100, 
-    ((today.getTime() - firstDate.getTime()) / (lastDate.getTime() - firstDate.getTime())) * 100
-  ));
-  const isTodayInRange = today >= firstDate && today <= lastDate;
+  // Calculate today's position on the timeline (today is always included in range now)
+  const todayPosition = ((today.getTime() - firstDate.getTime()) / (lastDate.getTime() - firstDate.getTime())) * 100;
 
   return (
     <div className="bg-surface-card/50 border border-border-subtle rounded p-4">
@@ -114,26 +113,24 @@ export default function HorizontalTimeline() {
           {/* Main horizontal line */}
           <div className="absolute top-1/2 left-8 right-8 -translate-y-1/2 h-px bg-zinc-700" />
           
-          {/* Today marker */}
-          {isTodayInRange && (
-            <div 
-              className="absolute top-0 bottom-0 -translate-x-1/2 z-20"
-              style={{ left: `calc(32px + (${todayPosition}% - 32px) * 0.94)` }}
-            >
-              {/* Vertical line */}
-              <div className="absolute top-0 bottom-0 left-1/2 -translate-x-1/2 w-px bg-brand-primary/50" />
-              {/* Top indicator */}
-              <div className="absolute -top-1 left-1/2 -translate-x-1/2">
-                <div className="w-2 h-2 bg-brand-primary rotate-45" />
-              </div>
-              {/* Bottom label */}
-              <div className="absolute -bottom-6 left-1/2 -translate-x-1/2">
-                <span className="text-[8px] font-mono font-bold text-brand-primary uppercase whitespace-nowrap">
-                  TODAY
-                </span>
-              </div>
+          {/* Today marker - always visible */}
+          <div 
+            className="absolute top-0 bottom-0 -translate-x-1/2 z-20"
+            style={{ left: `calc(32px + (${todayPosition}% - 32px) * 0.94)` }}
+          >
+            {/* Vertical line */}
+            <div className="absolute top-0 bottom-0 left-1/2 -translate-x-1/2 w-px bg-brand-primary/50" />
+            {/* Top indicator */}
+            <div className="absolute -top-1 left-1/2 -translate-x-1/2">
+              <div className="w-2 h-2 bg-brand-primary rotate-45" />
             </div>
-          )}
+            {/* Bottom label */}
+            <div className="absolute -bottom-6 left-1/2 -translate-x-1/2">
+              <span className="text-[8px] font-mono font-bold text-brand-primary uppercase whitespace-nowrap">
+                TODAY
+              </span>
+            </div>
+          </div>
           
           {/* Month tick marks */}
           {markers.map((m, i) => (
