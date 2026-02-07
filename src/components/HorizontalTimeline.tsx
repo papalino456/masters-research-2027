@@ -18,6 +18,15 @@ const typeIcons = {
   scholarship: Award,
 };
 
+// Color mapping for Tailwind classes
+const colorClasses = {
+  "zinc-800": { border: "border-zinc-800", text: "text-zinc-800", bg: "bg-zinc-800" },
+  "red-500": { border: "border-red-500", text: "text-red-500", bg: "bg-red-500" },
+  "amber-500": { border: "border-amber-500", text: "text-amber-500", bg: "bg-amber-500" },
+  "blue-400": { border: "border-blue-400", text: "text-blue-400", bg: "bg-blue-400" },
+  "cyan-400": { border: "border-cyan-400", text: "text-cyan-400", bg: "bg-cyan-400" },
+};
+
 export default function HorizontalTimeline() {
   const [hoveredEvent, setHoveredEvent] = useState<TimelineEvent | null>(null);
 
@@ -37,7 +46,7 @@ export default function HorizontalTimeline() {
     return (daysSinceStart / totalDays) * 100;
   };
 
-  const getEventColor = (event: TimelineEvent) => {
+  const getEventColorKey = (event: TimelineEvent): keyof typeof colorClasses => {
     const daysUntil = getDaysUntil(event.date);
     const isPast = daysUntil < 0;
     const isUrgent = daysUntil >= 0 && daysUntil < 30;
@@ -47,6 +56,11 @@ export default function HorizontalTimeline() {
     if (event.type === "deadline") return "amber-500";
     if (event.type === "scholarship") return "blue-400";
     return "cyan-400";
+  };
+
+  const getEventColors = (event: TimelineEvent) => {
+    const key = getEventColorKey(event);
+    return colorClasses[key];
   };
 
   const monthMarkers = () => {
@@ -104,7 +118,7 @@ export default function HorizontalTimeline() {
         {/* Event markers - small squares */}
         {sortedEvents.map((event, idx) => {
           const position = getEventPosition(event);
-          const color = getEventColor(event);
+          const colors = getEventColors(event);
           const daysUntil = getDaysUntil(event.date);
           const isPast = daysUntil < 0;
 
@@ -122,7 +136,7 @@ export default function HorizontalTimeline() {
               {/* Pulsing effect for critical */}
               {event.critical && !isPast && daysUntil < 60 && (
                 <motion.div
-                  className={`absolute inset-0 bg-${color}`}
+                  className={cn("absolute inset-0", colors.bg)}
                   animate={{ scale: [1, 1.8, 1], opacity: [0.4, 0, 0.4] }}
                   transition={{ duration: 2, repeat: Infinity }}
                 />
@@ -131,12 +145,12 @@ export default function HorizontalTimeline() {
               {/* Icon marker - rounded square style */}
               <div className={cn(
                 "w-6 h-6 rounded-md border bg-[#0a0a0a] flex items-center justify-center transition-all",
-                isPast ? "border-zinc-800 opacity-30" : `border-${color}`,
+                isPast ? "border-zinc-800 opacity-30" : colors.border,
                 hoveredEvent?.id === event.id && "scale-125"
               )}>
                 {(() => {
                   const Icon = typeIcons[event.type];
-                  return <Icon size={12} className={isPast ? "text-zinc-800" : `text-${color}`} />;
+                  return <Icon size={12} className={isPast ? "text-zinc-800" : colors.text} />;
                 })()}
               </div>
 
@@ -167,15 +181,20 @@ export default function HorizontalTimeline() {
             <div className="flex items-start gap-3">
               {(() => {
                 const Icon = typeIcons[hoveredEvent.type];
-                const color = getEventColor(hoveredEvent);
-                return <Icon size={14} className={`text-${color} flex-shrink-0 mt-0.5`} />;
+                const colors = getEventColors(hoveredEvent);
+                return <Icon size={14} className={cn(colors.text, "flex-shrink-0 mt-0.5")} />;
               })()}
               
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2 mb-1">
-                  <span className={cn("text-[9px] font-bold uppercase tracking-wider", `text-${getEventColor(hoveredEvent)}`)}>
-                    {hoveredEvent.type}
-                  </span>
+                  {(() => {
+                    const colors = getEventColors(hoveredEvent);
+                    return (
+                      <span className={cn("text-[9px] font-bold uppercase tracking-wider", colors.text)}>
+                        {hoveredEvent.type}
+                      </span>
+                    );
+                  })()}
                   {hoveredEvent.critical && (
                     <span className="px-1.5 py-0.5 bg-red-500/20 text-red-400 text-[8px] font-bold uppercase">
                       Critical
