@@ -104,97 +104,108 @@ export default function HorizontalTimeline() {
         </div>
       </div>
 
-      {/* Timeline visualization - contained height */}
-      <div className="relative h-16">
-        {/* Main horizontal line */}
-        <div className="absolute top-1/2 left-0 right-0 -translate-y-1/2 h-px bg-zinc-700" />
-        
-        {/* Today marker */}
-        {isTodayInRange && (
-          <div 
-            className="absolute top-0 bottom-0 -translate-x-1/2 z-20"
-            style={{ left: `${todayPosition}%` }}
-          >
-            {/* Vertical line */}
-            <div className="absolute top-0 bottom-0 left-1/2 -translate-x-1/2 w-px bg-brand-primary/50" />
-            {/* Top indicator */}
-            <div className="absolute -top-1 left-1/2 -translate-x-1/2">
-              <div className="w-2 h-2 bg-brand-primary rotate-45" />
-            </div>
-            {/* Bottom label */}
-            <div className="absolute -bottom-6 left-1/2 -translate-x-1/2">
-              <span className="text-[8px] font-mono font-bold text-brand-primary uppercase whitespace-nowrap">
-                TODAY
-              </span>
-            </div>
-          </div>
-        )}
-        
-        {/* Month tick marks */}
-        {markers.map((m, i) => (
-          <div 
-            key={i}
-            className="absolute top-1/2 -translate-y-1/2"
-            style={{ left: `${m.position}%` }}
-          >
-            <div className="w-px h-2 bg-zinc-800" />
-            <div className="absolute top-3 left-1/2 -translate-x-1/2 text-[7px] text-zinc-700 font-mono uppercase">
-              {m.date.toLocaleDateString("en-US", { month: "short" })}
-            </div>
-          </div>
-        ))}
-
-        {/* Event markers - small squares */}
-        {sortedEvents.map((event, idx) => {
-          const position = getEventPosition(event);
-          const colors = getEventColors(event);
-          const daysUntil = getDaysUntil(event.date);
-          const isPast = daysUntil < 0;
-
-          return (
-            <motion.div
-              key={event.id}
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              transition={{ delay: idx * 0.02 }}
-              className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 cursor-pointer"
-              style={{ left: `${position}%` }}
-              onMouseEnter={() => setHoveredEvent(event)}
-              onMouseLeave={() => setHoveredEvent(null)}
+      {/* Timeline visualization - horizontally scrollable */}
+      <div 
+        className="relative h-20 overflow-x-auto overflow-y-hidden scrollbar-thin scrollbar-thumb-zinc-700 scrollbar-track-transparent"
+        id="timeline-scroll"
+      >
+        {/* Timeline content with min-width */}
+        <div className="relative h-full min-w-[800px] px-8">
+          {/* Main horizontal line */}
+          <div className="absolute top-1/2 left-8 right-8 -translate-y-1/2 h-px bg-zinc-700" />
+          
+          {/* Today marker */}
+          {isTodayInRange && (
+            <div 
+              className="absolute top-0 bottom-0 -translate-x-1/2 z-20"
+              style={{ left: `calc(32px + (${todayPosition}% - 32px) * 0.94)` }}
             >
-              {/* Pulsing effect for critical */}
-              {event.critical && !isPast && daysUntil < 60 && (
-                <motion.div
-                  className={cn("absolute inset-0", colors.bg)}
-                  animate={{ scale: [1, 1.8, 1], opacity: [0.4, 0, 0.4] }}
-                  transition={{ duration: 2, repeat: Infinity }}
-                />
-              )}
-
-              {/* Icon marker - rounded square style */}
-              <div className={cn(
-                "w-6 h-6 rounded-md border bg-[#0a0a0a] flex items-center justify-center transition-all",
-                isPast ? "border-zinc-800 opacity-30" : colors.border,
-                hoveredEvent?.id === event.id && "scale-125"
-              )}>
-                {(() => {
-                  const Icon = typeIcons[event.type];
-                  return <Icon size={12} className={isPast ? "text-zinc-800" : colors.text} />;
-                })()}
+              {/* Vertical line */}
+              <div className="absolute top-0 bottom-0 left-1/2 -translate-x-1/2 w-px bg-brand-primary/50" />
+              {/* Top indicator */}
+              <div className="absolute -top-1 left-1/2 -translate-x-1/2">
+                <div className="w-2 h-2 bg-brand-primary rotate-45" />
               </div>
+              {/* Bottom label */}
+              <div className="absolute -bottom-6 left-1/2 -translate-x-1/2">
+                <span className="text-[8px] font-mono font-bold text-brand-primary uppercase whitespace-nowrap">
+                  TODAY
+                </span>
+              </div>
+            </div>
+          )}
+          
+          {/* Month tick marks */}
+          {markers.map((m, i) => (
+            <div 
+              key={i}
+              className="absolute top-1/2 -translate-y-1/2"
+              style={{ left: `calc(32px + ${m.position}% * 0.94)` }}
+            >
+              <div className="w-px h-2 bg-zinc-800" />
+              <div className="absolute top-3 left-1/2 -translate-x-1/2 text-[7px] text-zinc-700 font-mono uppercase">
+                {m.date.toLocaleDateString("en-US", { month: "short" })}
+              </div>
+            </div>
+          ))}
 
-              {/* Days counter for critical */}
-              {event.critical && !isPast && daysUntil < 100 && (
+          {/* Event markers */}
+          {sortedEvents.map((event, idx) => {
+            const position = getEventPosition(event);
+            const colors = getEventColors(event);
+            const daysUntil = getDaysUntil(event.date);
+            const isPast = daysUntil < 0;
+
+            return (
+              <motion.div
+                key={event.id}
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{ delay: idx * 0.02 }}
+                className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 cursor-pointer"
+                style={{ left: `calc(32px + ${position}% * 0.94)` }}
+                onMouseEnter={() => setHoveredEvent(event)}
+                onMouseLeave={() => setHoveredEvent(null)}
+              >
+                {/* Pulsing effect for critical */}
+                {event.critical && !isPast && daysUntil < 60 && (
+                  <motion.div
+                    className={cn("absolute inset-0", colors.bg)}
+                    animate={{ scale: [1, 1.8, 1], opacity: [0.4, 0, 0.4] }}
+                    transition={{ duration: 2, repeat: Infinity }}
+                  />
+                )}
+
+                {/* Icon marker - rounded square style */}
                 <div className={cn(
-                  "absolute -top-5 left-1/2 -translate-x-1/2 text-[7px] font-mono font-bold",
-                  daysUntil < 30 ? "text-red-500" : "text-amber-500"
+                  "w-6 h-6 rounded-md border bg-[#0a0a0a] flex items-center justify-center transition-all",
+                  isPast ? "border-zinc-800 opacity-30" : colors.border,
+                  hoveredEvent?.id === event.id && "scale-125"
                 )}>
-                  {daysUntil}d
+                  {(() => {
+                    const Icon = typeIcons[event.type];
+                    return <Icon size={12} className={isPast ? "text-zinc-800" : colors.text} />;
+                  })()}
                 </div>
-              )}
-            </motion.div>
-          );
-        })}
+
+                {/* Days counter for critical */}
+                {event.critical && !isPast && daysUntil < 100 && (
+                  <div className={cn(
+                    "absolute -top-5 left-1/2 -translate-x-1/2 text-[7px] font-mono font-bold",
+                    daysUntil < 30 ? "text-red-500" : "text-amber-500"
+                  )}>
+                    {daysUntil}d
+                  </div>
+                )}
+              </motion.div>
+            );
+          })}
+        </div>
+      </div>
+      
+      {/* Scroll hint */}
+      <div className="flex items-center justify-center gap-1 mt-1 text-[9px] text-zinc-700">
+        <span>← Scroll to see all events →</span>
       </div>
 
       {/* Event info panel - below timeline, no scroll needed */}
