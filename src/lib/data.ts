@@ -93,7 +93,8 @@ export const universities: University[] = [
       "Aptitude assessment: Stage 1 (GPA) or Stage 2 (+interview)",
       "No GRE required for EU applicants",
       "Access to MIRMI robotics research institute",
-      "Direct TUMonline application (no Uni-Assist/VPD)"
+      "Direct TUMonline application (no Uni-Assist/VPD)",
+      "DAAD Scholarship eligible: €934/month + travel (Oct 1 deadline)"
     ],
     requirements: [
       { id: "tum-1", name: "Aptitude Assessment (EFV) - Stage 1", category: "test", completed: false, description: "Automatic scoring based on GPA and subject background. Direct offer if threshold met." },
@@ -108,7 +109,7 @@ export const universities: University[] = [
       curriculumMatch: "Mechatronics graduates generally meet prerequisites. TUM looks for: Higher Mathematics, CS fundamentals, Control Theory. Possible 'Auflage' (conditional) exams in Theoretical CS if missing.",
       industryEcosystem: "Munich is Germany's premier robotics hub. Corporate opportunities: BMW, Audi, Siemens, Airbus. Research: DLR (German Aerospace), Franka Robotics, Magazino, MIRMI institute.",
       euAdvantages: "No GRE required. No VPD/Uni-Assist (direct TUMonline). Unlimited German labor market access. No student visa needed.",
-      scholarships: "Deutschlandstipendium (€300/month, post-enrollment), Bavarian State Scholarships (one-time grants)",
+      scholarships: "DAAD Study Scholarship (€934/month + travel, Oct 1 deadline) — priority for Mexican applicants. Deutschlandstipendium (€300/month, post-enrollment). Bavarian State Scholarships (one-time grants).",
       applicationPeriod: "April 1 - May 31, 2027 (both EU and non-EU)"
     }
   },
@@ -333,10 +334,18 @@ export const scholarships: Scholarship[] = [
     status: "check"
   },
   {
-    id: "daad",
-    name: "DAAD Study Scholarship",
-    amount: "€934/month + travel + insurance",
-    eligibility: ["Any nationality", "Technical fields prioritized"],
+    id: "daad-tum",
+    name: "DAAD Study Scholarship (TUM)",
+    university: "tum",
+    amount: "€934/month + €1,000 travel + insurance",
+    deadline: "2026-10-01",
+    eligibility: [
+      "Mexican nationality (priority pool)",
+      "Previous DAAD KOSPIE scholarship completed",
+      "1-year gap between scholarships required",
+      "Living in Mexico at application time",
+      "Bachelor's degree ≤6 years old"
+    ],
     status: "eligible"
   },
   {
@@ -362,8 +371,26 @@ export const scholarships: Scholarship[] = [
 
 export const timeline: TimelineEvent[] = [
   {
-    id: "t1",
+    id: "t0a",
+    date: "2026-06-01",
+    title: "DAAD Application Preparation Begins",
+    description: "Contact DAAD Mexico, gather documents, draft motivation letter, verify KOSPIE end date for 1-year gap requirement",
+    type: "milestone",
+    university: "tum",
+    critical: false
+  },
+  {
+    id: "t0b",
     date: "2026-10-01",
+    title: "DAAD Scholarship Deadline",
+    description: "Submit DAAD Study Scholarship application to DAAD Mexico (info@daad.mx). Mexican nationality = priority pool.",
+    type: "scholarship",
+    university: "tum",
+    critical: true
+  },
+  {
+    id: "t1",
+    date: "2026-10-15",
     title: "Prepare ETH Application Materials",
     description: "Draft ESOP thesis pre-proposal, gather transcripts, request reference letters",
     type: "milestone",
@@ -412,6 +439,15 @@ export const timeline: TimelineEvent[] = [
     description: "EECS and MechE graduate applications due",
     type: "deadline",
     university: "mit",
+    critical: true
+  },
+  {
+    id: "t7a",
+    date: "2027-03-15",
+    title: "DAAD Scholarship Decision Expected",
+    description: "Funding confirmation from DAAD (decision window: March-April 2027)",
+    type: "scholarship",
+    university: "tum",
     critical: true
   },
   {
